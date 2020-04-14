@@ -1,0 +1,33 @@
+To list all socker conatiners-
+docker ps -a
+
+To list all dpcker images-
+docker images
+
+To check docker version-
+docker --version
+
+To restart and start docker container-
+docker start/restart <container name/container ID>
+
+To stop docker container-
+docker stop <container name/container ID>
+
+To remove docker container-
+docker rm <container name/container id>
+
+To remove docker image -
+docker rmi <image name/image ID>
+
+To get metadata of docker image/container-
+docker inspect <container name/imgae name>
+
+For some specific info like ip address-
+
+docker inspect -f {{ip address}}
+
+To build a docker container-
+docker run -it --name <container name> <image name>
+
+To build a docker image using Jenkinsfile-
+docker build -t <cutomize image name> <docker file location>
