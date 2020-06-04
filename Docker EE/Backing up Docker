@@ -1,0 +1,45 @@
+For Backing up Docker Enterprize Edition you need to backup four main things-
+
+1)DOCKER SWARM
+2)UCP
+3)DTR
+4)Container Voulme Data
+
+# For backing up docker swarm cluster--
+
+1)STOP docker (sytemctl stop docker)
+2)move into /var/lib/docker
+3)cp and archive the swarm directory
+4)systemctl start docker
+
+# For Backup UCP
+
+docker container run \
+  --log-driver none --rm \
+  --interactive \
+  --name ucp \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  docker/ucp:2.2.6 backup \
+  --id <ucp-instance-id> \
+  --passphrase "secret" > /tmp/backup.tar
+
+# Backup registry content data
+
+sudo tar -cf backup-images.tar \ $(dirname $(docker volume inspect --format '{{.Mountpoint}}' dtr-registry-<replica-id>))
+
+# Backup DTR metadata
+
+read -sp 'ucp password: ' UCP_PASSWORD; \
+docker run --log-driver none -i --rm \ 
+--env UCP_PASSWORD=$UCP_PASSWORD \
+docker/dtr:2.3.11 backup \ 
+--ucp-url <ucp-url> \
+ --ucp-insecure-tls \
+ --ucp-username <ucp-username> \
+ --existing-replica-id <replica-id> > backup-metadata.tar
+ 
+ # Backup container volume data
+ 1)Data should be not inside container
+ 2)Best practice is to keep data in docker container colume
+ 3)Conatiner volumes could be stored locally on Docker nodes on a share that goes to NAS or SAN or even on apublic cloud.
+ 
