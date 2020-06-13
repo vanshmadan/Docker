@@ -1,0 +1,32 @@
+To list all docker swarm service-
+docker service ls
+
+To list nodes-
+docker node ls
+
+To create a docker swarm service-
+docker service create --name webapp1 replicas=6 nginx
+syntax-docker service create --name <service name> replicas=<No of replicas> <container image name>
+
+To lock existing docker swarm node-
+docker swarm update --autolock=true
+
+To unlock docker swarm node-
+docker swarm unlock
+ENter key
+
+Docker swarm nodes/service visualizaer installation:-
+ docker run -it -d -p 5000:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer
+ https://localhost:5000
+ 
+ docker inspect <container/service/node/image nam>
+ 
+ To check service logs-
+ docker service logs <service name>
+ -f  for relatime logs
+ 
+ To know about docker cluster/service/node--
+ docker inspect <container/node/service name>
+
+To create a service using template-
+docker service create --hostname={{Node.hostname}} <container name>
