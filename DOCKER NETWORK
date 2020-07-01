@@ -1,0 +1,16 @@
+To create a bridge network-
+docker network create --drive bridge app-network
+
+
+To run a conatiner with new newtwork-
+docker run -dit --name=app-1 --network=app-network nginx:latest
+docker run -dit --name=app-2 --network=app-network nginx:latest
+
+
+To test connection b/w two docker conatiner-
+
+docker attach app-1
+ping app2
+
+docker attach app-2
+ping app1
